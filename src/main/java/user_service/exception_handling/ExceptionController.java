@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import user_service.SQLDatabase.ICannabisDAO;
+import user_service.SQLDatabase.IUserDAO;
 
 
 @ControllerAdvice

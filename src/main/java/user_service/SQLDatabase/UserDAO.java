@@ -1,72 +1,22 @@
 package user_service.SQLDatabase;
 
 
-import user_service.model.Cannabis;
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
+import user_service.model.Passwords;
+import user_service.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CannabisDAO implements ICannabisDAO {
+public class UserDAO implements IUserDAO {
 
     DBConnector connector = new DBConnector();
+    Passwords passwords = new Passwords();
 
 
-
-
-
-
-
-    @Override
-    public Cannabis getMultipleCannabis(String CannabisName) throws DALException, SQLException {
-
-        Cannabis Cannabis = new Cannabis();
-        Connection connection = connector.connectToRemoteDB();
-        PreparedStatement getCannabis = connection.prepareStatement("SELECT CannabisName, THCRation, CBGRatio, CBDratio FROM Cannabis WHERE CannabisName = ?");
-        getCannabis.setString(1, CannabisName);
-        ResultSet rs = getCannabis.executeQuery();
-        if (rs.next()) {
-            //dont know if proper way to do it
-            while(rs.next()) {
-                int i = 1;
-                Cannabis.setCannabisName(rs.getString(i));
-                //Need a join to put side effects in from side effect table
-                Cannabis.setTHCRatio(rs.getFloat(i));
-                Cannabis.setCBDRatio(rs.getFloat(i));
-                Cannabis.setCBGRatio(rs.getFloat(i));
-            }
-        } else {
-            throw new UnknownCannabisException(CannabisName);
-        }
-        return Cannabis;
-    }
-
-    @Override
-    public Cannabis getCannabis(String CannabisName) throws DALException, SQLException {
-
-        Cannabis Cannabis = new Cannabis();
-        Connection connection = connector.connectToRemoteDB();
-        PreparedStatement getCannabis = connection.prepareStatement("SELECT CannabisName, THCRation, CBGRatio, CBDratio FROM Cannabis WHERE CannabisName = ?");
-        getCannabis.setString(1, CannabisName);
-        ResultSet rs = getCannabis.executeQuery();
-        if (rs.next()) {
-                Cannabis.setCannabisName(rs.getString(1));
-                //Need a join to put side effects in from side effect table
-                Cannabis.setTHCRatio(rs.getFloat(1));
-                Cannabis.setCBDRatio(rs.getFloat(1));
-                Cannabis.setCBGRatio(rs.getFloat(1));
-            }
-        else {
-            throw new UnknownCannabisException(CannabisName);
-        }
-        return Cannabis;
-    }
-
-
-
-
-/*
     @Override
     public void createUser(String email, String username, String password) throws DALException, SQLException {
 
@@ -161,6 +111,6 @@ public class CannabisDAO implements ICannabisDAO {
             throw new WrongPasswordException(username);
         }
     }
-    */
+
 
 }

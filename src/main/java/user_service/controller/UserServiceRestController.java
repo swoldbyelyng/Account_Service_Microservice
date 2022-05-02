@@ -4,34 +4,32 @@ import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import user_service.SQLDatabase.ICannabisDAO;
-import user_service.SQLDatabase.ICannabisDAO;
-import user_service.logic.SearchLogic;
-import user_service.logic.ISearchLogic;
+import user_service.SQLDatabase.IUserDAO;
+import user_service.logic.AccountLogic;
+import user_service.logic.IAccountLogic;
 import user_service.model.Response;
-import user_service.model.Cannabis;
+import user_service.model.User;
 
 import java.sql.SQLException;
 
 @RestController
 //@Order(1)
-@RequestMapping("/Cannabis-service")
-public class CannabisServiceRestController {
+@RequestMapping("/user-service")
+public class UserServiceRestController {
 
-    ISearchLogic SearchLogic = new SearchLogic();
+    IAccountLogic accountLogic = new AccountLogic();
     Response response = new Response();
 
-    @GetMapping("/get-Cannabis")
-    public ResponseEntity<String> getCannabis(@RequestBody String jsonString) throws ICannabisDAO.DALException, SQLException {
+    @GetMapping("/get-user")
+    public ResponseEntity<String> getUser(@RequestBody String jsonString) throws IUserDAO.DALException, SQLException {
         JSONObject jsonObject = new JSONObject(jsonString);
-        String CannabisName = jsonObject.getString("CannabisName");
-        response = SearchLogic.getCannabis(CannabisName);
+        String username = jsonObject.getString("username");
+        response = accountLogic.getUser(username);
         return ResponseEntity.status(HttpStatus.OK).body(response.toJSONString());
     }
 
-    /*
     @PostMapping("/create-user")
-    public ResponseEntity<String> createUser(@RequestBody String jsonString) throws ICannabisDAO.DALException, SQLException {
+    public ResponseEntity<String> createUser(@RequestBody String jsonString) throws IUserDAO.DALException, SQLException {
         JSONObject jsonObject = new JSONObject(jsonString);
         String username = jsonObject.getString("username");
         String email = jsonObject.getString("email");
@@ -41,7 +39,7 @@ public class CannabisServiceRestController {
     }
 
     @GetMapping("/authenticate-user")
-    public ResponseEntity<String> authenticateUser(@RequestBody String jsonString) throws ICannabisDAO.DALException, SQLException {
+    public ResponseEntity<String> authenticateUser(@RequestBody String jsonString) throws IUserDAO.DALException, SQLException {
         JSONObject jsonObject = new JSONObject(jsonString);
         String username = jsonObject.getString("username");
         String password = jsonObject.getString("password");
@@ -50,17 +48,17 @@ public class CannabisServiceRestController {
     }
 
     @DeleteMapping("/delete-user")
-    public ResponseEntity<String> deleteUser(@RequestBody String jsonString) throws ICannabisDAO.DALException, SQLException {
+    public ResponseEntity<String> deleteUser(@RequestBody String jsonString) throws IUserDAO.DALException, SQLException {
         JSONObject jsonObject = new JSONObject(jsonString);
         String username = jsonObject.getString("username");
         String password = jsonObject.getString("password");
         response = accountLogic.deleteUser(username, password);
         return ResponseEntity.status(HttpStatus.OK).body(response.toJSONString());
     }
-*/
-    @ExceptionHandler(ICannabisDAO.DALException.class)
+
+    @ExceptionHandler(IUserDAO.DALException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<String> handleDALException(ICannabisDAO.DALException dalException) {
+    public ResponseEntity<String> handleDALException(IUserDAO.DALException dalException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dalException.getMessage());
     }
 

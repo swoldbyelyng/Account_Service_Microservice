@@ -6,14 +6,13 @@ import java.sql.SQLException;
 
 public class DBConnector {
 
-//Connection has changed to GreenCare, remember to launch locale server
 
     public Connection connectToLocalDB() {
         //localhost
         //3306
         String serverIP = "130.225.170.95:3306";
-        String dbName = "GreenCare";
-        String url = "jdbc:mysql://locahost:3306/GreenCare";
+        String dbName = "backendTest";
+        String url = "jdbc:mysql://locahost:3306/backendTest";
         String username = "admin3";
         String password = "abcdE123!";
         Connection connection = null;
@@ -36,8 +35,8 @@ public class DBConnector {
         //localhost
         //3306
         String serverIP = "130.225.170.95:3306";
-        String dbName = "GreenCare";
-        String url = "jdbc:mysql://130.225.170.95:3306/GreenCare";
+        String dbName = "backendTest";
+        String url = "jdbc:mysql://130.225.170.95:3306/backendTest";
         String username = "admin3";
         String password = "abcdE123!";
         Connection connection = null;

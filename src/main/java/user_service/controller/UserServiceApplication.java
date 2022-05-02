@@ -5,9 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.annotation.Order;
 
 @SpringBootApplication
-public class CannabisSearchApplication {
+public class UserServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CannabisSearchApplication.class, args);
+		SpringApplication.run(UserServiceApplication.class, args);
 	}
 }

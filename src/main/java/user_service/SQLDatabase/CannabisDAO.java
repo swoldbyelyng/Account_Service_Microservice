@@ -19,12 +19,12 @@ public class CannabisDAO implements ICannabisDAO {
 
 
     @Override
-    public Cannabis getMultipleCannabis(String CannabisName) throws DALException, SQLException {
+    public Cannabis getMultipleCannabis(String SearchTerm) throws DALException, SQLException {
 
         Cannabis Cannabis = new Cannabis();
         Connection connection = connector.connectToRemoteDB();
-        PreparedStatement getCannabis = connection.prepareStatement("SELECT CannabisName, THCRation, CBGRatio, CBDratio FROM Cannabis WHERE CannabisName = ?");
-        getCannabis.setString(1, CannabisName);
+        PreparedStatement getCannabis = connection.prepareStatement("SELECT * from Cannabis WHERE MATCH (CannabisName, idEffect, idSideEffect, idCatagory, Description) AGAINST (Searchterm)  ");
+        getCannabis.setString(1, SearchTerm);
         ResultSet rs = getCannabis.executeQuery();
         if (rs.next()) {
             //dont know if proper way to do it
@@ -37,7 +37,7 @@ public class CannabisDAO implements ICannabisDAO {
                 Cannabis.setCBGRatio(rs.getFloat(i));
             }
         } else {
-            throw new UnknownCannabisException(CannabisName);
+            throw new UnknownCannabisException(SearchTerm);
         }
         return Cannabis;
     }

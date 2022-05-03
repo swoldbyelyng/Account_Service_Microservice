@@ -9,6 +9,16 @@ public class Response {
     public String message = "";
     public JSONObject result = new JSONObject();
 
+    public Response() {
+
+    }
+
+    public Response(int status, boolean error, String message) {
+        this.status = status;
+        this.error = error;
+        this.message = message;
+    }
+
     public static Response fromJSON(JSONObject json) {
         Response response = new Response();
         response.status = json.getInt("status");

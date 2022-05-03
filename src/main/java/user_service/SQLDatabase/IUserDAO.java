@@ -1,5 +1,6 @@
 package user_service.SQLDatabase;
 
+import user_service.model.Response;
 import user_service.model.User;
 
 import java.sql.SQLException;
@@ -19,47 +20,38 @@ public interface IUserDAO {
     // Exceptions
 
     class DALException extends Exception {
-        public DALException(String msg){ super(msg); }
+        private Response response;
+
+        public DALException(String msg, Response response) {
+            super(msg);
+            this.response = response;
+        }
+
+        public Response getResponse(){
+            return  response;
+        }
     }
 
     class WrongPasswordException extends DALException {
-        private final String username;
 
-        public WrongPasswordException(String username){
-            super("Wrong password for user '" + username + "'");
-            this.username = username;
-        }
-
-        public String getUsername() {
-            return username;
+        public WrongPasswordException(String username) {
+            super("Wrong password for user '" + username + "'", new Response(404, true, "Wrong password for user '" + username + "'"));
         }
     }
 
 
     class UserExistsException extends DALException {
-        private final String username;
 
-        public UserExistsException(String username){
-            super("Unknown user '" + username + "'");
-            this.username = username;
-        }
-
-        public String getUsername() {
-            return username;
+        public UserExistsException(String username) {
+            super("User: '" + username + "' already exists", new Response(404, true, "User: '" + username + "' already exists."));
         }
     }
 
 
     class UnknownUserException extends DALException {
-        private final String username;
 
-        public UnknownUserException(String username){
-            super("Unknown user '" + username + "'");
-            this.username = username;
-        }
-
-        public String getUsername() {
-            return username;
+        public UnknownUserException(String username) {
+            super("Unknown user '" + username + "'", new Response(404, true, "Unknown user '" + username + "'"));
         }
     }
 }

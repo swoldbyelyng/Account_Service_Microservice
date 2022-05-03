@@ -4,6 +4,7 @@ package user_service.SQLDatabase;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import user_service.model.Passwords;
+import user_service.model.Response;
 import user_service.model.User;
 
 import java.sql.Connection;
